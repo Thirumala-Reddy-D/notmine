@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- ====== CSS (in same file) ====== -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+    }
+
+    nav a:hover {
+      background: #1e293b;
+      transform: translateY(-1px);
+    }
+
+    nav a.active {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 1.5rem 0 2.5rem;
+      min-height: calc(100vh - 60px);
+    }
+
+    section.page {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    section.page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Home Page */
+    .home-hero {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr;
+      gap: 2rem;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+
+    .home-text h1 {
+      font-size: 2.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .home-text h1 span {
+      color: #38bdf8;
+    }
+
+    .home-text h2 {
+      font-size: 1.1rem;
+      color: #9ca3af;
+      margin-bottom: 0.8rem;
+    }
+
+    .home-text p {
+      color: #9ca3af;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .home-buttons {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      background: transparent;
+      color: #e5e7eb;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #0ea5e9;
+      color: #0f172a;
+      transform: translateY(-1px);
+    }
+
+    .home-card {
+      background: #020617;
+      padding: 1.2rem;
+      border-radius: 1rem;
+      border: 1px solid #1f2937;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .home-card h3 {
+      margin-bottom: 0.6rem;
+      font-size: 1rem;
+      color: #e5e7eb;
+    }
+
+    .home-card ul {
+      list-style: none;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    .home-card li {
+      margin-bottom: 0.35rem;
+    }
+
+    /* Generic section styling */
+    .section-title {
+      font-size: 1.6rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 1rem;
+    }
+
+    /* Resume Page */
+    .timeline {
+      border-left: 2px solid #1f2937;
+      margin-top: 1rem;
+      padding-left: 1rem;
+    }
+
+    .timeline-item {
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #38bdf8;
+    }
+
+    .timeline-title {
+      font-weight: bold;
+    }
+
+    .timeline-company {
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    /* Education Page */
+    .edu-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .edu-card {
+      background: #020617;
+      border-radius: 0.8rem;
+      padding: 1rem;
+      border: 1px solid #1f2937;
+    }
+
+    .edu-card h3 {
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-card .degree {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-card .year {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 0.4rem;
+    }
+
+    .edu-card p {
+      font-size: 0.88rem;
+      color: #d1d5db;
+    }
+
+    /* Contact Page */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.3fr;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .contact-form {
+      background: #020617;
+      padding: 1rem;
+      border-radius: 0.8rem;
+      border: 1px solid #1f2937;
+    }
+
+    .contact-form label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.45rem;
+      margin-bottom: 0.7rem;
+      border-radius: 0.5rem;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+    .contact-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-info {
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .contact-info p {
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-info span {
+      color: #9ca3af;
+    }
+
+    footer {
+      border-top: 1px solid #1f2937;
+      padding: 0.8rem 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .home-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav ul {
+        gap: 0.5rem;
+      }
+
+      .logo {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ====== HEADER / NAVBAR ====== -->
+  <header>
+    <div class="container navbar">
+      <div class="logo">My<span>Portfolio</span></div>
+      <nav>
+        <ul>
+          <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
+          <li><a href="#" class="nav-link" data-target="resume">Resume</a></li>
+          <li><a href="#" class="nav-link" data-target="education">Education</a></li>
+          <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main class="container">
+
+    <!-- ====== HOME PAGE ====== -->
+    <section id="home" class="page active">
+      <div class="home-hero">
+        <div class="home-text">
+          <h1>Hi, I'm <span>Vignesh V</span></h1>
+          <h2>Front-End Developer & Computer Science Student</h2>
+          <p>
+            I love building clean, responsive websites and learning new technologies.
+            This portfolio showcases my projects, skills, education and experience.
+          </p>
+          <div class="home-buttons">
+            <button class="btn btn-primary" data-target="resume">View Resume</button>
+            <button class="btn" data-target="contact">Contact Me</button>
+          </div>
+        </div>
+        <div class="home-card">
+          <h3>Quick Info</h3>
+          <ul>
+            <li><strong>Location:</strong> Bengaluru City, Karnataka, India</li>
+            <li><strong>Email:</strong> vignesh123@gmail.com</li>
+            <li><strong>Skills:</strong> HTML, CSS, JavaScript, Java, C, SQL</li>
+            <li><strong>Interests:</strong> Web Development, Problem Solving</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== RESUME PAGE ====== -->
+    <section id="resume" class="page">
+      <h2 class="section-title">Resume</h2>
+      <p class="section-subtitle">
+        Professional experience and key skills.
+      </p>
+
+      <h3>Experience</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-title">Front-End Developer Intern</div>
+          <div class="timeline-company">ABC Tech Solutions</div>
+          <div class="timeline-date">Jun 2024 – Sep 2024</div>
+          <div class="timeline-desc">
+            Worked on responsive web interfaces using HTML, CSS and JavaScript.
+            Collaborated with a small team to build user-friendly dashboards.
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">Web Design Freelancer</div>
+          <div class="timeline-company">Self-employed</div>
+          <div class="timeline-date">2023 – Present</div>
+          <div class="timeline-desc">
+            Designed and developed simple portfolio and business websites
+            for local clients with a focus on clean layouts.
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 1.5rem;">Skills</h3>
+      <ul style="margin-top: 0.5rem; color: #d1d5db; font-size: 0.95rem; line-height: 1.6;">
+        <li><strong>Languages:</strong> C, Java, JavaScript</li>
+        <li><strong>Web:</strong> HTML5, CSS3, Responsive Design</li>
+        <li><strong>Tools:</strong> VS Code, Git, GitHub</li>
+        <li><strong>Other:</strong> Problem Solving, OOP, Basic DBMS</li>
+      </ul>
+    </section>
+
+    <!-- ====== EDUCATION PAGE ====== -->
+    <section id="education" class="page">
+      <h2 class="section-title">Education</h2>
+      <p class="section-subtitle">
+        Academic background and certifications.
+      </p>
+
+      <div class="edu-cards">
+        <div class="edu-card">
+          <h3> Bachelor of Technology in Computer Science</h3>
+          <div class="degree">Sri Sairam College of Engineering, Bengaluru</div>
+          <div class="year">2023 – 2027</div>
+          <p>
+            Relevant coursework: Data Structures, Operating Systems, DBMS,
+            Computer Networks, Web Technologies, Software Engineering.
+          </p>
+        </div>
+
+        <div class="edu-card">
+          <h3>PreUniversity College</h3>
+          <div class="degree">PU College</div>
+          <div class="year">2017 – 2023</div>
+          <p>
+            Focused on Mathematics, Physics and Chemistry with strong
+            interest in Computer Science.
+          </p>
+        </div>
+
+        <div class="edu-card">
+          <h3>Certifications</h3>
+          <div class="degree">Online Platforms</div>
+          <div class="year">Various Years</div>
+          <p>
+            Completed courses in Front-End Development, Java Programming
+            and Problem Solving on platforms like Coursera / Udemy, etc.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CONTACT PAGE ====== -->
+    <section id="contact" class="page">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-subtitle">
+        Feel free to reach out for opportunities, projects or questions.
+      </p>
+
+      <div class="contact-grid">
+        <form class="contact-form" id="contactForm">
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="Your name" required />
+
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="your.email@example.com" required />
+
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Type your message..." required></textarea>
+
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <p><span>Email:</span> vignesh123@gmail.com</p>
+          <p><span>Phone:</span> +91-9830265932</p>
+          <p><span>Location:</span> Bengaluru City, Karnataka, India</p>
+          <p><span>GitHub:</span> github.com/vigneshv</p>
+          <p><span>LinkedIn:</span> linkedin.com/in/vigneshv</p>
+          <p style="margin-top: 0.8rem;">
+            I’m open to internships, full-time roles and collaboration on interesting projects.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    © <span id="year"></span> Vignesh V. All rights reserved.
+  </footer>
+
+  <!-- ====== JavaScript (in same file) ====== -->
+  <script>
+    // Handle navigation clicks
+    const navLinks = document.querySelectorAll(".nav-link");
+    const pages = document.querySelectorAll(".page");
+
+    function showPage(targetId) {
+      pages.forEach((page) => {
+        page.classList.toggle("active", page.id === targetId);
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.dataset.target === targetId);
+      });
+    }
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = this.dataset.target;
+        showPage(target);
+      });
+    });
+
+    // Buttons on home page to navigate
+    document.querySelectorAll(".home-buttons .btn").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const target = this.dataset.target;
+        showPage(target);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    // Simple form submit handler (just demo)
+    const contactForm = document.getElementById("contactForm");
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Thank you! Your message has been submitted (demo only).");
+      contactForm.reset();
+    });
+
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
